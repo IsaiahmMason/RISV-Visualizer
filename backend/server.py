@@ -1,11 +1,13 @@
+import os
 import threading
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 
 from compiler import compile_source, RequestError
 
-app = Flask(__name__)
-app.config["MAX_CONTENT_LENGTH"] = 32 * 1024     # Sec 9.4: request size limit
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src")
+app = Flask(__name__, static_folder=SRC, static_url_path="")
+app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
 
 MAX_CONCURRENT = 2                               # Sec 9.7: concurrency limit
 _slots = threading.BoundedSemaphore(MAX_CONCURRENT)
@@ -36,6 +38,10 @@ def compile_endpoint():
         _slots.release()
 
     return jsonify(result), 200
+
+@app.get("/")
+def index():
+    return send_from_directory(SRC, "index.html")
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000)

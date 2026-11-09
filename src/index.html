@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>C to RISC-V Visualizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>C to RISC-V Visualizer</h1>
+    <label>Optimization
+      <select id="opt">
+        <option value="O0">-O0</option>
+        <option value="O2">-O2</option>
+      </select>
+    </label>
+    <button id="compile">Compile</button>
+  </header>
+
+  <div id="message" hidden></div>
+
+  <main>
+    <section>
+      <h2>C Source</h2>
+      <textarea id="source" spellcheck="false">int main(void) {
+    int x = 2 + 3;
+    return x;
+}
+</textarea>
+    </section>
+    <section>
+      <h2>RISC-V Assembly</h2>
+      <div id="asm" class="list"></div>
+    </section>
+    <section>
+      <h2>Machine Code</h2>
+      <div id="mc" class="list"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
