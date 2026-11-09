@@ -1,0 +1,15 @@
+# build output
+*.elf
+*.o
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# editor / OS
+.vscode/
+.DS_Store
+
+# node
+node_modules/
