@@ -5,6 +5,7 @@ import signal
 import subprocess
 import sys
 import tempfile
+from decoder import decode
 
 GCC = "riscv64-unknown-elf-gcc"
 OBJDUMP = "riscv64-unknown-elf-objdump"
@@ -84,11 +85,17 @@ def compile_source(source, optimization):
                 "text": re.sub(r"\s+", " ", m.group(3)).strip(),
                 "source_line": line,
             })
+            d = decode(word)
             instructions.append({
                 "address": addr,
                 "hex": f"0x{word:08x}",
                 "binary": f"{word:032b}",
+                "mnemonic": d["mnemonic"],
+                "format": d["format"],
                 "source_line": line,
+                "fields": d["fields"],
+                "immediate_value": d["immediate_value"],
+                "decode_status": d["decode_status"],
             })
 
     return {"success": True, "assembly": assembly,
